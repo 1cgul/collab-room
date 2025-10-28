@@ -1,0 +1,102 @@
+{
+  "name": "git-room",
+  "displayName": "Git Room",
+  "description": "Real-time awareness of teammate file changes to avoid Git conflicts.",
+  "version": "0.0.1",
+  "publisher": "git-room",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:gitRoom.roomView",
+    "onCommand:gitRoom.refresh"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "gitRoom.refresh",
+        "title": "Git Room: Refresh Now"
+      },
+      {
+        "command": "gitRoom.resetConnection",
+        "title": "Git Room: Reset Connection"
+      }
+    ],
+    "views": {
+      "explorer": [
+        {
+          "id": "gitRoom.roomView",
+          "name": "Git Room"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Git Room",
+      "properties": {
+        "gitRoom.roomName": {
+          "type": "string",
+          "default": "",
+          "description": "Shared room identifier used to group collaborators.",
+          "scope": "window"
+        },
+        "gitRoom.username": {
+          "type": "string",
+          "default": "",
+          "description": "Display name used within Git Room.",
+          "scope": "window"
+        },
+        "gitRoom.serverUrl": {
+          "type": "string",
+          "default": "http://localhost:4100",
+          "description": "Git Room backend server URL.",
+          "scope": "window"
+        },
+        "gitRoom.refreshInterval": {
+          "type": "number",
+          "default": 30,
+          "minimum": 10,
+          "maximum": 300,
+          "description": "Seconds between local change scans.",
+          "scope": "window"
+        },
+        "gitRoom.gitBranch": {
+          "type": "string",
+          "default": "main",
+          "description": "Base branch passed to git diff --name-only.",
+          "scope": "window"
+        },
+        "gitRoom.anonymousMode": {
+          "type": "boolean",
+          "default": false,
+          "description": "Hide your username from other collaborators.",
+          "scope": "window"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "compile": "tsc -p .",
+    "watch": "tsc -p . -w",
+    "build": "npm run clean && npm run compile",
+    "lint": "eslint src --ext .ts",
+    "test": "echo \"No tests yet\""
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "@typescript-eslint/parser": "^6.11.0",
+    "eslint": "^8.54.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "socket.io-client": "^4.7.5"
+  }
+}
